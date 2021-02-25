@@ -1,0 +1,25 @@
+.center-box {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
+    width: 400px;
+    height: 400px;
+    background-color: white;
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+span,
+button,
+h3,
+mat-label,
+mat-form-field {
+    font-family: Montserrat;
+}
+
+::ng-deep h2#swal2-title {
+    font-family: Montserrat !important;
+}

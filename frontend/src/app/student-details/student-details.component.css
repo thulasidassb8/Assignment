@@ -1,0 +1,55 @@
+.mat-form-field {
+    width: 100%;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.table {
+    border: 0.5px solid #dee2e6 !important;
+}
+
+th {
+    background-color: #3f51b5;
+    width: 97px;
+    height: 18px;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    text-align: center;
+    color: white;
+}
+
+td {
+    text-align: center;
+    height: 18px;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    color: black;
+}
+
+span,
+button,
+h3,
+div {
+    font-family: Montserrat;
+}
+
+::ng-deep span.mat-select-value-text {
+    font-family: Montserrat !important;
+    color: #707070 !important;
+}
+
+::ng-deep .mat-option-text {
+    font-family: Montserrat !important;
+}

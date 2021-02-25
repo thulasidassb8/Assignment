@@ -1,0 +1,144 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button>
+    <span>Student Card</span>
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    <mat-icon (click)="logout()">logout</mat-icon>
+  </button>
+
+</mat-toolbar>
+
+<div class="container py-3">
+    <div class="row">
+        <div class="col-md-12">
+            <section class="col-md-8 offset-md-2 py-3" *ngIf="!isHide">
+                <form class="py-3" [formGroup]="studentForm" (ngSubmit)="studentDetails()">
+                    <div class="row">
+                        <div class="col-md-12 d-flex justify-content-center py-2">
+                            <h3>Student Details</h3>
+                        </div>
+
+                        <div class="col-md-12">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Student Name</mat-label>
+                                <input matInput placeholder="Student Name" formControlName="studentName" (keypress)="AvoidSpace($event)" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="error-messages col-sm-12" style="color: red;font-size:15px; text-align: left;">
+                            <ng-container *ngFor="let error of error_messages.studentName">
+                                <div class="error-message" *ngIf="studentForm.get('studentName').hasError(error.type) && (studentForm.get('studentName').dirty || studentForm.get('studentName').touched)">
+                                    {{ error.message }}
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div class="col-md-12 d-flex justify-content-end">
+                            <mat-icon (click)="addSubjectDetails()">add</mat-icon>
+                        </div>
+
+                        <div class="col-md-12" formArrayName="subjectDetails">
+                            <div class="row" *ngFor="let list of subjectDetailsControls.controls; let i = index" [formGroupName]="i">
+                                <div class="col-md-6">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Subject</mat-label>
+                                        <mat-select formControlName="subjectName">
+                                            <mat-option *ngFor="let list of languageList" [value]="list.name" (click)="slectedLanguage(list.id)" [disabled]="list.disabled">
+                                                {{list.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <!-- <input matInput placeholder="Subject" formControlName="subjectName" (keypress)="AvoidSpace($event)" required> -->
+                                    </mat-form-field>
+                                </div>
+
+                                <div class=" col-md-6 ">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Mark</mat-label>
+                                        <input maxlength="3" matInput placeholder="Mark" formControlName="mark" (keypress)="AvoidSpace($event)" required>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="error-messages col-sm-6" style="color: red;font-size:15px; text-align: left;">
+                                    <ng-container *ngFor="let error of error_messages.subjectName">
+                                        <div class="error-message" *ngIf="list?.get('subjectName')?.hasError(error.type) && (list?.get('subjectName')?.dirty || list?.get('subjectName')?.touched)">
+                                            {{ error.message }}
+                                        </div>
+                                    </ng-container>
+                                </div>
+
+                                <div class="error-messages col-sm-6" style="color: red;font-size:15px; text-align: left;">
+                                    <ng-container *ngFor="let error of error_messages.mark">
+                                        <div class="error-message" *ngIf="list?.get('mark')?.hasError(error.type) && (list?.get('mark')?.dirty || list?.get('mark')?.touched)">
+                                            {{ error.message }}
+                                        </div>
+                                    </ng-container>
+                                </div>
+
+                                <div class="col-md-12 d-flex justify-content-end " *ngIf="subjectDetailsControls.controls.length> 1">
+                                    <mat-icon (click)="deletedSubjectDetails(i)">delete</mat-icon>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 d-flex justify-content-end py-3">
+                            <div class="pr-2">
+                                <button mat-raised-button color="warn" type="button" (click)="cancel()">Cancel</button>
+                            </div>
+                            <div>
+                                <button mat-raised-button color="primary" *ngIf="!isEdit" type="submit">Create</button>
+                                <button mat-raised-button color="primary" *ngIf="isEdit" type="submit">Update</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </section>
+            <section class="py-3" *ngIf="isHide">
+                <div class="row">
+                    <div class="col-md-12 d-flex justify-content-end">
+                        <button mat-raised-button color="primary" type="button" (click)="addStudent()">Add Student</button>
+                    </div>
+
+                    <div class="col-md-12 d-flex justify-content-center">
+                        <h3>Student Details</h3>
+                    </div>
+                </div>
+            </section>
+            <section class="mb-5 " *ngIf="isHide">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th cla>Student Name</th>
+                            <th>Subject</th>
+                            <th>Mark</th>
+                            <th>Percentage</th>
+                            <th>Edit</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let list of studentLists; let i = index">
+                            <td class="d-flex justify-content-center align-items-center" style="height: 160px !important;">{{list.studentName}}</td>
+                            <td>
+                                <div class="w-100" *ngFor="let subject of list.subjectDetails">
+                                    <p class="w-100 text-center mb-0 pb-3">{{subject.subjectName}}</p>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="w-100" *ngFor="let subject of list.subjectDetails">
+                                    <p class="w-100 text-center mb-0 pb-3">{{subject.mark}}</p>
+                                </div>
+                            </td>
+                            <td class="d-flex justify-content-center align-items-center" style="height: 160px !important;">{{list.percentage}}</td>
+                            <td (click)="editForm(list)">
+                                <mat-icon style="position: relative; top: 58px;">edit</mat-icon>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+            </section>
+        </div>
+    </div>
+</div>
